@@ -45,9 +45,26 @@ impl Executor {
         Executor { pose }
     }
 
-    pub fn execute(&mut self, _cmds: &str) {}
+    /// 按顺序执行指令；当前支持 `M` 前进一格。
+    pub fn execute(&mut self, cmds: &str) {
+        for c in cmds.chars() {
+            if c == 'M' {
+                self.move_forward();
+            }
+        }
+    }
 
     pub fn query(&self) -> Pose {
         self.pose
+    }
+
+    fn move_forward(&mut self) {
+        match self.pose.heading {
+            'N' => self.pose.y += 1,
+            'S' => self.pose.y -= 1,
+            'E' => self.pose.x += 1,
+            'W' => self.pose.x -= 1,
+            _ => {}
+        }
     }
 }
