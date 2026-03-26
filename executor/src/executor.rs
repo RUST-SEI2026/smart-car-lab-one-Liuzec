@@ -45,11 +45,14 @@ impl Executor {
         Executor { pose }
     }
 
-    /// 按顺序执行指令；当前支持 `M` 前进一格。
+    /// 按顺序执行一批指令：`M` 前进一格，`L`/`R` 原地左转/右转 90°。
     pub fn execute(&mut self, cmds: &str) {
         for c in cmds.chars() {
-            if c == 'M' {
-                self.move_forward();
+            match c {
+                'M' => self.move_forward(),
+                'L' => self.turn_left(),
+                'R' => self.turn_right(),
+                _ => {}
             }
         }
     }
@@ -66,5 +69,25 @@ impl Executor {
             'W' => self.pose.x -= 1,
             _ => {}
         }
+    }
+
+    fn turn_left(&mut self) {
+        self.pose.heading = match self.pose.heading {
+            'N' => 'W',
+            'W' => 'S',
+            'S' => 'E',
+            'E' => 'N',
+            h => h,
+        };
+    }
+
+    fn turn_right(&mut self) {
+        self.pose.heading = match self.pose.heading {
+            'N' => 'E',
+            'E' => 'S',
+            'S' => 'W',
+            'W' => 'N',
+            h => h,
+        };
     }
 }
