@@ -8,3 +8,5 @@ mod executor_init_and_query_tests;
 mod executor_move_instruction_tests;
 #[cfg(test)]
 mod executor_turn_instruction_tests;
+#[cfg(test)]
+mod executor_batch_instruction_tests;
